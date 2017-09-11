@@ -1,0 +1,420 @@
+body {
+    width:1475px;
+    padding: 0; 
+    margin: 25px auto 25px auto;
+    font-size: 20px;
+    box-sizing: border-box;
+    line-height: 25px;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    box-sizing: border-box;
+}
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+a {
+    color: rgba(14, 121, 103, 1);
+    text-decoration: none;
+}
+img {
+    /*display: block;*/
+}
+
+
+/*Logo*/
+img.logo {
+    width: 217px;
+}
+
+
+/*Menu*/
+nav {
+    margin-top: 32px;
+}
+nav a {
+    background-color: rgba(24, 128, 110, .2);
+    display: inline-block;
+    color: rgba(0, 75, 66, 1);
+    font-size: 16px;
+    line-height: 50px;
+    padding: 0 6.25px 0 6.25px;
+    box-sizing: border-box;
+    text-align: center;
+}
+nav a + a {
+    margin-left: 25px;
+}
+nav a.current, nav a:hover {
+    background-color: rgba(24, 128, 110, 1);
+    color:white;
+}
+
+
+/*Main picture*/
+.main_picture {
+    background-image: url(id-card-blue-planet.jpg);
+    /*background-position: 23px;*/
+    background-repeat: no-repeat;
+    width: 1475px;
+    height: 475px;
+    margin-top: 50px;
+    position: relative;
+    /*padding-left: 23px;*/
+    border-left: 2px solid rgba(24, 128, 110, .8);
+    box-sizing: border-box;
+}
+h1 {
+    font-weight: normal;
+    font-size: 40px; 
+    position: absolute;
+    width: 1473px;
+    bottom: 0;
+    background-color: rgba(0, 75, 66, 0.85);
+    box-sizing: border-box;
+    line-height: 125px;
+    padding: 0 50px 0 23px;
+    color: white;
+    margin: 0;
+}
+h1 a {
+    color: white;
+    /*border: 1px solid rgba(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, .25);*/
+}
+
+
+/*Index*/
+.reason {
+    box-sizing: border-box;
+    border-left: 2px solid rgba(24, 128, 110, .8);
+    padding-left: 23px;
+    float:left;
+    width: 725px;
+    position: absolute;
+    //background-color: red;
+}
+.reason + .reason {
+    padding-top: 25px;
+}
+.index div:nth-of-type(2) {
+    top: 725px;
+}
+.index div:nth-of-type(3) {
+    top: 750px;
+}
+.index div:nth-of-type(4) {
+    top: 800px;
+}
+.index div:nth-of-type(5) {
+    top: 725px;
+    left: 750px;
+    padding-top: 0;
+}
+.index div:nth-of-type(6) {
+    top: 750px;
+    left: 750px;
+    padding-bottom: 50px;
+}
+
+
+/*Programmes*/
+table {
+    width:100%;
+    margin-top: 50px;
+}
+td, th {
+    text-align: left;
+    vertical-align:  middle;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 0 23px 0 25px;
+    border-left: 2px solid rgba(24, 128, 110, .8);
+}
+td {
+    text-align: left;
+}
+td:last-of-type, 
+th:last-of-type {
+    border-right: 2px solid rgba(24, 128, 110, .8);
+}
+tr:last-of-type td {
+    border-bottom: 2px solid rgb(232,232,232);
+}
+th {
+    background-color: rgba(232, 232, 232, 1);
+    font-weight: normal;
+    vertical-align: top;
+    padding: 25px 0 25px 25px;
+}
+tr:nth-of-type(2) th{
+    border-top: 2px solid white;
+}
+tr:nth-of-type(2) th:nth-of-type(n+1) {
+    width: 150px;
+    height: 100px;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+td:nth-of-type(n+2) {
+    text-align: center;
+}
+table .legend {
+    display: block;
+    font-size: 15px;
+    font-family: Roboto Condensed, sans-serif;
+}
+table .group {
+    font-size: 20px;
+    font-family: Roboto Condensed, sans-serif;
+    margin-left: 6.25px;
+}
+table .group:before {
+    content: "(";
+}
+table .group:after {
+    content: ")";
+}
+td:first-of-type {
+    font-family: Roboto Condensed, sans-serif;
+}
+tr:nth-of-type(even) {
+    background-color: rgb(232,232,232);
+}
+
+
+/*Technologies*/
+.technologies .category
+{
+    border-left: 2px solid rgba(24, 128, 110, .8);
+    padding-left: 23px;
+}
+.technologies .category:first-of-type
+{
+    margin-top: 50px;
+}
+.technologies .category .name
+{
+    display: inline-block;
+
+}
+.technologies .category .technology
+{
+    margin-top: 0;
+    margin-left: 12.5px;
+    display: inline-block;
+    background-color: rgba(204, 153, 0, .25);
+    padding: 0 6.25px 0 6.25px;
+    box-sizing: border-box;
+    /*	color: white;*/
+}
+.technologies .category .technology:after {
+    //content: ",";
+}
+.technologies .category .technology:last-of-type:after {
+    //content: "";
+}
+.technologies .category + .category {
+    padding-top: 25px;
+}
+
+
+/*International*/
+.international-cooperation iframe {
+    margin-top: 50px;
+    border: none;
+    display: block;
+}
+.international-cooperation img.map {
+    margin-top: 50px;
+    border: none;
+    width:  1475px;
+
+    box-sizing: border-box;
+}
+
+
+/*Partners*/
+.partners .partner {
+    width: 275px;
+    height: 175px;
+    float: left;
+    margin-left: 25px;
+    border-left: 2px solid rgba(24, 128, 110, .8);
+    box-sizing: border-box;
+    padding-left: 23px;
+}
+.partners .partner:nth-of-type(-n+5) {
+    margin-top: 50px;
+}
+.partners .partner:nth-of-type(5n+1) { 
+    margin-left: 0px;
+}
+.partners .partner:nth-of-type(n+6) {
+    margin-top: 25px;
+}
+.partners .partner img {
+    width: 125px;
+    margin-right:250px;
+    margin-bottom: 12.5px;
+}
+.partners .partner .rus, .partner .eng {
+    display: inline-block;
+}
+.partners .partner .rus {
+    font-style: italic;
+    display: block;
+}
+.partners .partner .eng + .rus {
+    //font-weight: bold;
+}
+
+
+/*Salaries*/
+.salaries .bar {
+    float: left;
+    width:75px;
+    background: linear-gradient(white, rgba(204, 153, 0, .5));
+    vertical-align: bottom;
+    margin-top: 50px;
+    padding: 12.5px ;
+    box-sizing: border-box;
+    border-top: 2px solid rgba(24, 128, 110, .8);
+
+    /*border-bottom: 2px solid rgba(24, 128, 110, .8);*/
+}
+.salaries .bar + .bar {
+    margin-left: 25px;
+}
+.salaries .source {
+    clear: both;
+    padding-top: 25px;
+    font-size:15px;
+
+        
+}
+.salaries .amount:before {
+    content: '$';
+}
+.salaries .month {
+    font-size: 15px;
+    color: rgba(102, 51, 0, .75);
+    text-transform: capitalize;
+    line-height: 15px;
+    margin-top: 5px;
+
+}
+.salaries .year {
+    color: rgba(102, 51, 0, .75)   ;
+    font-size: 15px;
+
+}
+
+
+/*Student life*/
+.student-life .entertainment {
+    width: 475px;
+    height: 325px;
+    float: left;
+    margin-top: 50px;
+    border-left: 2px solid rgba(24, 128, 110, .8);
+    padding-left: 23px;
+    box-sizing: border-box;
+}
+.student-life .picture {
+    width: 375px;
+    height: 275px;
+    background-size: cover;
+}
+.student-life .entertainment + .entertainment {
+    margin-left: 25px;
+}
+.student-life .entertainment .caption {
+    margin-top: 25px;
+    font-size: 15px;
+}
+.student-life p {
+    display: inline-block;
+    clear: both;
+    margin-top: 50px;
+    border-left: 2px solid rgba(24, 128, 110, .8);
+    padding-left: 23px;
+}
+
+
+/*Graduates*/
+.graduates .graduate {
+    width: 475px;
+    height: 325px;
+    float: left;
+    border-left: 2px solid rgba(24, 128, 110, .8);
+    box-sizing: border-box;
+    padding-left: 23px;
+}
+.graduates .name {
+    text-transform: capitalize;
+    margin-top: 25px;
+}
+.graduates .portrait {
+    width: 175px; 
+    height: 225px;
+    background-size: cover;
+}
+.graduates .name .last,
+.graduates .name .first, 
+.graduates .name .middle {
+    float: left;
+}
+.graduates .name div + div {
+    margin-left: .25em;
+}
+.graduates .position {
+    clear: both;
+    font-size: 15px;
+}
+.graduates .source {
+    font-size: 15px; 
+    display: none;
+}
+.graduates .graduate:nth-of-type(-n+3) {
+    margin-top: 50px;
+}
+.graduates .graduate:nth-of-type(3n+2),
+.graduates .graduate:nth-of-type(3n+3) { 
+    margin-left: 25px;
+}
+.graduates .graduate:nth-of-type(n+4) {
+    //background-color: red;
+    margin-top: 25px;
+}
+
+
+/*Footer*/
+footer {
+    font-size: 15px;
+    clear: both;
+    text-align: right;
+    width: 875px;
+    float:right;
+    line-height: 75px;
+}
+
+
+/*Fonts*/
+/* cyrillic */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto'), local('Roboto-Regular'), url(fonts/mErvLBYg_cXG3rLvUsKT_fesZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+    unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* cyrillic */
+@font-face {
+    font-family: 'Roboto Condensed';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(fonts/Zd2E9abXLFGSr9G3YK2MsCGXDOnx9ptx3UTSPTrfsgk.woff2) format('woff2');
+    unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
