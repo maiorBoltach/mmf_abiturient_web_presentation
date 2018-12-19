@@ -1,0 +1,24 @@
+{
+  "name": "MMF Abiturient Dashboard",
+  "version": "1.0.0 (2018)",
+  "description": "MMF Abiturient Dashboard",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.2",
+    "npm": "^6.1.0",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2",
+    "sqlite3": "^4.0.1"
+  },
+  "bin": "server.js",
+  "pkg": {
+    "assets": [
+      "wwwroot/**/*"
+    ],
+    "targets": [
+      "node10"
+    ]
+  },
+  "author": "Valentin Boltach (val.boltach@gmail.com)"
+}
