@@ -19,10 +19,14 @@ module.exports = {
         if(type === "BudgetEnlisment")
             arrayRes = [Number(time)];
         else if(type === "PaidEnlisment")
-            arrayRes = [Number(time), 0 ,0, 0];
+            arrayRes = [Number(time), 0 ,0];
 
+        let i = 0;
         while (currentElement[0] !== undefined) {
+            if(type === "PaidEnlisment" && i === 1)
+                arrayRes.push(0);
             arrayRes.push(currentElement.text() !== "" ? Number(currentElement.text()) : 0);
+            i++;
             currentElement = currentElement.next();
         }
         return arrayRes;
@@ -42,31 +46,31 @@ module.exports = {
             "points150", "points140", "points130", "points120", "speciality"];
     },
 
-    getListOfSpec: function(type) {
+    getListOfSpec: function(db, type) {
+        let add_st = "";
         if(type === "BudgetEnlisment")
         {
-            return [['компьютерная математика и системный анализ', 'km'],
-                ['математика и информационные технологии (направление - веб-программирование и интернет-технологии)', 'web'],
-                ['математика и информационные техно-логии (направление - математическое и программное обеспечение мобильных устройств)', 'mobile'],
-                ['математика (направление - научно-конструкторская деятельность)', 'constructor'],
-                ['математика (направление - научно-педагогическая деятельность)', 'teacher'],
-                ['математика (направление - научно-производственная деятельность)', 'production'],
-                ['математика (направление - экономическая деятельность)', 'economist'],
-                ['механика и математическое моделирование', 'mechanics']
-            ];
+            add_st = " where budget_day = 1"
         }
         else if(type === "PaidEnlisment") {
-            return [['компьютерная математика и системный анализ', 'km'],
-                ['математика и информационные технологии (направление - веб-программирование и интернет-технологии)', 'web'],
-                ['математика и информационные техно-логии (направление - математическое и программное обеспечение мобильных устройств)', 'mobile']
-            ];
+            add_st = " where paid_day = 1"
         }
+
+        let specSql = "select name,speciality_id from Specialities" + add_st;
+        let resultArray = [];
+        db.all(specSql, function (err, rows) {
+            rows.forEach((row) => {
+                let row_array = [row.name, row.speciality_id];
+                resultArray.push(row_array);
+            });
+        });
+        return resultArray;
     },
 
     refreshData: function (db, url, type) {
         const request = require('request');
-        const specialities = module.exports.getListOfSpec(type);
-        request(url, function (err, resp, body) {
+        const specialities = module.exports.getListOfSpec(db, type);
+        request({url: url, "rejectUnauthorized": false}, function (err, resp, body) {
             if(body) {
                 let time = module.exports.getTime(body);
                 console.log(new Date() + " | Refreshing site | " + type + " | " + new Date(time * 1000));
@@ -76,20 +80,18 @@ module.exports = {
 
                     if (numberOfData === 0) {
                         specialities.forEach(function (item, i, arr) {
-                            console.log(i + ": " + item[0] + " | " + item[1]);
                             let arrayRes = module.exports.getData(body, item[0], type);
                             arrayRes.push("'" + item[1] + "'");
                             let sql = 'INSERT INTO ' + type + '(' + module.exports.getListOfFields().join() + ') VALUES(' + arrayRes.join() + ')';
                             db.run(sql, function (err) {
                                 if (err) {
-                                    return console.log(err.message);
+                                    return console.log(`[Error] ${item[0]} - speciality_id: ${item[1]}: ${err.message}; ${sql}`);
                                 }
-                                console.log(`A row has been inserted with rowid ${this.lastID}`);
+                                console.log(new Date() + ` | A row has been inserted with rowid ${this.lastID} / ${item[0]} - speciality_id: ${item[1]}`);
                             });
-
                         });
                     }
-                    else console.log("Already exist");
+                    else console.log(new Date() + " | Already exist");
                 });
             }
 

@@ -4,7 +4,7 @@
 *
 * =========================================================
 *
-* Copyright 2016 Creative Tim (http://www.creative-tim.com/product/material-dashboard-pro)
+* Copyright 2016 Creative Tim (http://mmf.bsu.by/product/material-dashboard-pro)
  *
  *                       _oo0oo_
  *                      o8888888o
@@ -5666,8 +5666,8 @@ h2.title {
 }
 .sidebar[data-active-color="blue"] li.active > a,
 .off-canvas-sidebar[data-active-color="blue"] li.active > a {
-  background-color: #00bcd4;
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+  background-color: #0a3470;
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(48, 118, 175, 0.4);
 }
 .sidebar[data-active-color="green"] li.active > a,
 .off-canvas-sidebar[data-active-color="green"] li.active > a {
@@ -9340,8 +9340,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   margin: 10px 0;
 }
 .nav-pills.nav-pills-info > li.active > a, .nav-pills.nav-pills-info > li.active > a:focus, .nav-pills.nav-pills-info > li.active > a:hover {
-  background-color: #00bcd4;
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+  background-color: #0a3470;
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(48, 118, 175, 0.4);
 }
 .nav-pills.nav-pills-success > li.active > a, .nav-pills.nav-pills-success > li.active > a:focus, .nav-pills.nav-pills-success > li.active > a:hover {
   background-color: #4caf50;
@@ -10453,7 +10453,7 @@ footer .btn {
   color: #9c27b0;
 }
 .card [data-background-color="blue"] {
-  background: linear-gradient(60deg, #26c6da, #00acc1);
+  background: linear-gradient(60deg, #4c95af, #144e9d);
   box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
 }
 .card [data-icon-bg-color="blue"] i {

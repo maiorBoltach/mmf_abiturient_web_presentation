@@ -1,8 +1,16 @@
 document.addEventListener("DOMContentLoaded", function (event) {
-    getBasicData();
-    getAdditionalData("all");
-    }
+    getFacultiesData();
+    firstInit();
+}
 );
+
+function firstInit() {
+    let faculty_id = getFacultyId();
+    let studyType = getStudyType();
+    getSpecialitiesData(faculty_id, studyType);
+    getBasicData(faculty_id, studyType);
+    getAdditionalData("all", faculty_id, studyType);
+}
 
 $('#refresh').click(function () {
     let updateValue = $( "#updateOldTime" ).attr( "data-value");
@@ -10,38 +18,59 @@ $('#refresh').click(function () {
     else getAPIWithDiff(updateValue);
 });
 
+$('#faculties').on("click", "a", function (event) {
+    let activeTab = $(this).attr('data-tokens');
+    $( "#2018budget" ).attr( "data-value", activeTab );
+    $( "#speciality" ).attr( "data-value", 'all' );
+    firstInit();
+});
 
-$('#speciality').on("click", "li", function (event) {
-    let activeTab = $(this).attr('id');
+
+$('#speciality').on("click", "a", function (event) {
+    let faculty_id = getFacultyId();
+    let activeTab = $(this).attr('data-tokens');
     let updateValue = $( "#updateOldTime" ).attr( "data-value");
+    let studyType = getStudyType();
     if(updateValue === "") {
-        getBasicData();
-        getAdditionalData(activeTab);
+        getBasicData(faculty_id, studyType);
+        getAdditionalData(activeTab, faculty_id, studyType);
     }
     else {
         let time = Math.floor((new Date().getTime() - (Number(updateValue)*60*60*1000)) / 1000);
         console.log(time);
-        getBasicDataWithDiff(time);
-        getAdditionalDataWithDiff(activeTab, time);
-        $( "#updateOldTime" ).attr( "data-value", hours );
+        getBasicDataWithDiff(faculty_id, studyType, time);
+        getAdditionalDataWithDiff(activeTab, faculty_id, studyType, time);
+        $( "#updateOldTime" ).attr( "data-value", updateValue );
     }
-
-    
+    $( "#speciality" ).attr( "data-value", activeTab );
 });
 
 function getAPI() {
     let currentTabId = getSelectedTabId();
-    getBasicData();
-    getAdditionalData(currentTabId);
+    let faculty_id = getFacultyId();
+    let studyType = getStudyType();
+    getBasicData(faculty_id, studyType);
+    getAdditionalData(currentTabId, faculty_id, studyType);
 }
 
-function getAdditionalData(endpoint) {
-    let ajaxForm = new ajaxProxy("/api/budget/" + endpoint);
+function getSpecialitiesData(faculty_id, studyType) {
+    let ajaxForm = new ajaxProxy("/api/faculty/" + faculty_id + "/" + studyType + "/list");
+    ajaxForm.PopulateTable(printSpecialitiesData, handleError);
+}
+
+function getFacultiesData() {
+    let ajaxForm = new ajaxProxy("/api/faculty/list");
+    ajaxForm.PopulateTable(printFacultyData, handleError);
+}
+
+
+function getAdditionalData(endpoint, faculty_id, studyType) {
+    let ajaxForm = new ajaxProxy("/api/faculty/" + faculty_id + "/speciality/" + endpoint + "/" + studyType);
     ajaxForm.PopulateTable(printAdditionalData, handleError);
 }
 
-function getBasicData() {
-    let apiCall = new ajaxProxy("/api/budget/all");
+function getBasicData(faculty_id, studyType) {
+    let apiCall = new ajaxProxy("/api/faculty/" + faculty_id + "/speciality/all/" + studyType);
     apiCall.PopulateTable(printBasicData, handleError);
 }
 
@@ -74,22 +103,24 @@ $('#diff3days').click(function () {
 });
 
 function getAPIWithDiff(hours) {
+    let faculty_id = getFacultyId();
+    let studyType = getStudyType();
     let time = Math.floor((new Date().getTime() - (Number(hours)*60*60*1000)) / 1000);
     console.log(time);
     let currentTabId = getSelectedTabId();
-    getBasicDataWithDiff(time);
-    getAdditionalDataWithDiff(currentTabId, time);
+    getBasicDataWithDiff(faculty_id, studyType, time);
+    getAdditionalDataWithDiff(currentTabId, faculty_id, studyType, time);
     $( "#updateOldTime" ).attr( "data-value", hours );
 }
 
-function getBasicDataWithDiff(time) {
-    let apiCall = new ajaxProxy("/api/budget/all/" + time);
+function getBasicDataWithDiff(faculty_id, studyType, time) {
+    let apiCall = new ajaxProxy("/api/faculty/" + faculty_id + "/speciality/all/" + studyType + "/" + time);
     apiCall.PopulateTable(printBasicDataWithDiff, handleError);
 }
 
-function getAdditionalDataWithDiff(endpoint, time) {
-    let ajaxForm = new ajaxProxy("/api/budget/" + endpoint + "/" + time);
-    ajaxForm.PopulateTable(printAdditionalDataWithDiff, handleError);
+function getAdditionalDataWithDiff(endpoint, faculty_id, studyType, time) {
+    let apiCall = new ajaxProxy("/api/faculty/" + faculty_id + "/speciality/" + endpoint + "/" + studyType + "/" + time);
+    apiCall.PopulateTable(printAdditionalDataWithDiff, handleError);
 }
 
 //////////////////////////////
@@ -98,8 +129,17 @@ function getAdditionalDataWithDiff(endpoint, time) {
 //////////////////////////////
 ///// Tools
 
+function getFacultyId() {
+    return  $( "#2018budget" ).attr( "data-value");
+}
+
 function getSelectedTabId(){
-    return $("ul#speciality li.active").attr("id");
+        return  $( "#speciality" ).attr( "data-value");
+    // return $("div#speciality li.selected a").attr("data-tokens");
+}
+
+function getStudyType(){
+    return 'budget';
 }
 
 function handleError(data) {
@@ -123,7 +163,16 @@ function formatDateTime(data) {
 
 function getCurrentPassingScore(data) {
     let stringResult = "";
-    let allRecruiments = Number(data.recruitmentBudget) - Number(data.target_training) - Number(data.no_exams) - Number(data.out_competition);
+
+    let requirementValue = 0;
+    let studyType = getStudyType();
+    if(studyType === 'budget')
+        requirementValue = data.recruitmentBudget;
+    else if(studyType === 'paid')
+        requirementValue = data.recruitmentPaid;
+
+    let allRecruiments = Number(requirementValue) - Number(data.target_training) - Number(data.no_exams) - Number(data.out_competition);
+
     top:
         for (let i = 4; i > 0; i--) {
 
@@ -134,7 +183,6 @@ function getCurrentPassingScore(data) {
             for (let j = maxValue; j >= minValue; j--) {
                 let stringCurrent = 'points' + String(i) + String(j) + String(0);
                 let currentValue = Number(data[stringCurrent]);
-                console.log(stringCurrent + " | " + allRecruiments + " - " + currentValue);
                 if (allRecruiments - currentValue <= 0) {
                     if(stringCurrent === "points120") stringResult = "до 120";
                     else {
@@ -162,12 +210,45 @@ function printBasicData(data) {
     const table = tbody.length ? tbody : $('#budgetTable');
     let tableString = "";
     const points = data[0];
-    tableString = '<tr><td class="text-center"><strong>' + checkString(points.recruitmentBudget) + '</strong></td>' +
+
+    let requirementValue = 0;
+    let studyType = getStudyType();
+    if(studyType === 'budget')
+        requirementValue = points.recruitmentBudget;
+    else if(studyType === 'paid')
+        requirementValue = points.recruitmentPaid;
+
+    tableString = '<tr><td class="text-center"><strong>' + checkString(requirementValue) + '</strong></td>' +
         '<td class="text-center"><strong>' + checkString(points.allRecruitments) + '</strong></td>' +
         '<td class="text-center"><strong>' + getCurrentPassingScore(points) + '</strong></td></tr>';
     $('#budgetTimeUpdate').html(formatDateTime(points.time));
     table.append(tableString);
+}
 
+function printSpecialitiesData(data) {
+    var groupFilter = $("#speciality .selectpicker");
+    groupFilter.find('option').remove();
+
+    groupFilter.append('<option data-tokens="all" value="all" selected>ВЕСЬ ФАКУЛЬТЕТ</option>');
+
+    $.each(data, function(index, element) {
+        groupFilter.append('<option data-tokens="'+element.speciality_id+'" value="'+element.speciality_id+'">'+element.name+'</option>');
+    });
+    groupFilter.selectpicker("refresh");
+}
+
+
+function printFacultyData(data) {
+    let default_faculty = getFacultyId();
+    var groupFilter = $("#faculties .selectpicker");
+    groupFilter.find('option').remove();
+
+    $.each(data, function(index, element) {
+        groupFilter.append('<option data-tokens="'+element.id+'" value="'+element.id+'">'+element.name+'</option>');
+    });
+
+    groupFilter.val(default_faculty);
+    groupFilter.selectpicker("refresh");
 
 }
 
@@ -186,7 +267,15 @@ function printBasicDataWithDiff(data) {
     let tableString = "";
     const oldData = data.oldDataValue;
     const newData = data.newDataValue;
-    tableString = '<tr><td class="text-center"><strong>' + checkString(newData.recruitmentBudget) + '</strong></td>' +
+
+    let requirementValue = 0;
+    let studyType = getStudyType();
+    if(studyType === 'budget')
+        requirementValue = newData.recruitmentBudget;
+    else if(studyType === 'paid')
+        requirementValue = newData.recruitmentPaid;
+
+    tableString = '<tr><td class="text-center"><strong>' + checkString(requirementValue) + '</strong></td>' +
         '<td class="text-center"><strong>' + checkString(newData.allRecruitments) + printDifference(oldData.allRecruitments, newData.allRecruitments) + '</strong></td>' +
         '<td class="text-center"><strong>' + getCurrentPassingScore(newData) + '</strong></td></tr>';
     $('#updateOldTime').html(formatDateTime(oldData.time));
@@ -216,7 +305,15 @@ function printAdditionalDataWithDiff(data) {
     const oldData = data.oldDataValue;
     const newData = data.newDataValue;
 
-    tableString1 = '<tr><td class="text-center">' + checkString(newData.recruitmentBudget) + '</td>' +
+
+    let requirementValue = 0;
+    let studyType = getStudyType();
+    if(studyType === 'budget')
+        requirementValue = newData.recruitmentBudget;
+    else if(studyType === 'paid')
+        requirementValue = newData.recruitmentPaid;
+
+    tableString1 = '<tr><td class="text-center">' + checkString(requirementValue) + '</td>' +
         '<td class="text-center">' + checkString(newData.allRecruitments) + printDifference(oldData.allRecruitments, newData.allRecruitments) + '</td>' +
         '<td class="text-center"></td>' +
         '<td class="text-center">' + checkString(newData.target_training) + printDifference(oldData.target_training, newData.target_training) + '</td>' +
@@ -280,7 +377,14 @@ function printAdditionalData(data) {
 
     const points = data[0];
 
-    tableString1 = '<tr><td class="text-center">' + checkString(points.recruitmentBudget) + '</td>' +
+    let requirementValue = 0;
+    let studyType = getStudyType();
+    if(studyType === 'budget')
+        requirementValue = points.recruitmentBudget;
+    else if(studyType === 'paid')
+        requirementValue = points.recruitmentPaid;
+
+    tableString1 = '<tr><td class="text-center">' + checkString(requirementValue) + '</td>' +
         '<td class="text-center">' + checkString(points.allRecruitments) + '</td>' +
         '<td class="text-center"></td>' +
         '<td class="text-center">' + checkString(points.target_training) + '</td>' +

@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png"/>
+    <link rel="icon" type="image/png" href="assets/img/favicon.png"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Проходные баллы | Механико-математический факультет</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
+    <meta name="viewport" content="width=device-width"/>
+    <!-- Bootstrap core CSS     -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <!--  Material Dashboard CSS    -->
+    <link href="assets/css/material-dashboard.css" rel="stylesheet"/>
+    <!--  Monitoring    -->
+    <link href="assets/css/monitoring.css" rel="stylesheet"/>
+    <!--     Fonts and icons     -->
+    <link href="assets/css/font-awesome.css" rel="stylesheet"/>
+    <link href="assets/css/google-roboto-300-700.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="sidebar" data-active-color="blue" data-background-color="white" data-image="assets/img/sidebar-1.jpg">
+        <div class="logo">
+            <div class="simple-text">
+                <img src="assets/img/bsu_logo.png" width="100%" alt="БГУ">
+
+            </div>
+        </div>
+        <div class="logo logo-mini">
+            <a href="http://bsu.by/" class="simple-text">
+                Ct
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <li>
+                    <a href="index.html">
+                        <i class="material-icons">dashboard</i>
+                        <p>Главная</p>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="bsu_index.html">
+                        <i class="material-icons">timeline</i>
+                        <p>Проходные баллы</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="monitoring.html">
+                        <i class="material-icons">info</i>
+                        <p>Перейти в МехМат БГУ</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <div class="nav-align-center display-flex-center">
+                            <div id="faculties" class=" col-lg-8 ">
+
+                            <select class="selectpicker center-block" data-style="btn btn-primary" title="Выбрать факультет..." data-size="20">
+<!--                                <option data-tokens="all" selected>Механико-математический</option>-->
+                            </select>
+                            </div>
+
+                            <ul class="nav nav-pills nav-pills-info" role="tablist" id="configuration">
+                                <li class="active" id="budget">
+                                    <a href="#2018budget" role="tab" data-toggle="tab">
+                                        2019 (дневное бюджет)
+                                    </a>
+                                </li>
+                                <!--<li id="paid">-->
+                                <!--<a href="specialities.html#2018">-->
+                                <!--2018 (дневное платное)</a>-->
+                                <!--</li>-->
+
+                            </ul>
+                        </div>
+<br>
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="2018budget" data-value="6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header card-header-icon" data-background-color="blue">
+                                                <i class="material-icons">assignment</i>
+                                            </div>
+                                            <div class="card-content">
+                                                <h4 class="card-title col-md-6">Приемная кампания - 2019
+                                                </h4>
+
+                                                <div class="col-md-6">Время обновления основной статистики: <strong id="budgetTimeUpdate">01/01/1980 00:00:00</strong>
+                                                    <button id="refresh" class="btn btn-primary btn-xs">Обновить</button>
+                                                    <br>Время сравнения: <strong id="updateOldTime" data-value="">-</strong>
+                                                    <br>Показать разницу за:
+                                                    <button id="diff1hour" class="btn btn-primary btn-xs">1 час</button>
+                                                    <button id="diff3hours" class="btn btn-primary btn-xs">3 часа</button>
+                                                    <button id="diff6hours" class="btn btn-primary btn-xs">6 часов</button>
+                                                    <button id="diff1day" class="btn btn-primary btn-xs">1 день</button>
+                                                    <button id="diff3days" class="btn btn-primary btn-xs">3 дня</button>
+                                                    <br><br>
+                                                </div>
+
+                                                <div class="table-responsive">
+                                                    <table class="table" id="budgetTable">
+                                                        <thead class="text-primary">
+                                                        <tr>                                                            <th class="text-center">План приема</th>
+                                                            <th class="text-center">Общее количество поданных заявлений</th>
+                                                            <th class="text-center">Проходной балл на факультет</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0<</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header card-header-tabs" data-background-color="blue">
+                                                <div class="nav-tabs-navigation">
+                                                    <div class="nav-tabs-wrapper" id="speciality" data-value="6">
+                                                        <span class="nav-tabs-title">Специальность:</span>
+
+                                                        <select class="selectpicker col-lg-11 center-block" data-style="btn btn-primary" title="Выбрать специальность..." data-size="10">
+                                                            <!--                                                                <option data-tokens="all" selected>All</option>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-content">
+
+
+                                                <div class="table-responsive">
+                                                    <table class="table" id="budgetTable1">
+                                                        <thead class="text-primary">
+                                                        <tr>
+                                                            <th class="text-center" colspan="2">Общая информация</th>
+                                                            <th class="text-center" rowspan="2"></th>
+                                                            <th class="text-center" colspan="3">Подано заявлений</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="text-center">План приема</th>
+                                                            <th class="text-center">Подано заявлений</th>
+                                                            <th class="text-center">на условиях целевой подготовки</th>
+                                                            <th class="text-center">без вступительных экзаменов</th>
+                                                            <th class="text-center">вне конкурса</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center"></td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <br>
+                                                <div class="table-responsive">
+                                                    <table class="table" id="budgetTable2">
+                                                        <thead class="text-primary">
+                                                        <tr>
+                                                            <th class="text-center" colspan="14">Подано заявлений по баллам</th>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="text-center">&gt;391</th>
+                                                            <th class="text-center">390 - 381</th>
+                                                            <th class="text-center">380 - 371</th>
+                                                            <th class="text-center">370 - 361</th>
+                                                            <th class="text-center">360 - 351</th>
+                                                            <th class="text-center">350 - 341</th>
+                                                            <th class="text-center">340 - 331</th>
+                                                            <th class="text-center">330 - 321</th>
+                                                            <th class="text-center">320 - 311</th>
+                                                            <th class="text-center">310 - 301</th>
+                                                            <th class="text-center">300 - 291</th>
+                                                            <th class="text-center">290 - 281</th>
+                                                            <th class="text-center">280 - 271</th>
+                                                            <th class="text-center">270 - 261</th>
+                                                        </tr>
+
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="text-center">0
+                                                                <small>(+1)</small>
+                                                            </td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table class="table" id="budgetTable3">
+
+
+                                                        <thead class="text-primary">
+                                                        <th class="text-center">260 - 251</th>
+                                                        <th class="text-center">250 - 241</th>
+                                                        <th class="text-center">240 - 231</th>
+                                                        <th class="text-center">230 - 221</th>
+                                                        <th class="text-center">220 - 211</th>
+                                                        <th class="text-center">210 - 201</th>
+                                                        <th class="text-center">200 - 191</th>
+                                                        <th class="text-center">190 - 181</th>
+                                                        <th class="text-center">180 - 171</th>
+                                                        <th class="text-center">170 - 161</th>
+                                                        <th class="text-center">160 - 151</th>
+                                                        <th class="text-center">150 - 141</th>
+                                                        <th class="text-center">140 - 131</th>
+                                                        <th class="text-center">130 - 121</th>
+                                                        <th class="text-center">&lt;120</th>
+
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                            <td class="text-center">0</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Личный кабинет абитуриента
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Сайт БГУ
+                                </a>
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        &copy;
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script>
+                        <a href="http://mmf.bsu.by/">Механико-математический факультет БГУ</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+</body>
+<!--   Core JS Files   -->
+<script src="assets/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+<script src="assets/js/jquery-ui.min.js" type="text/javascript"></script>
+<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/js/material.min.js" type="text/javascript"></script>
+<script src="assets/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<!-- Forms Validations Plugin -->
+<script src="assets/js/jquery.validate.min.js"></script>
+<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+<script src="assets/js/moment.min.js"></script>
+<!--  Charts Plugin -->
+<script src="assets/js/chartist.min.js"></script>
+<script src="assets/js/chartist-plugin-pointlabels.min.js"></script>
+<!--  Plugin for the Wizard -->
+<script src="assets/js/jquery.bootstrap-wizard.js"></script>
+<!--  Notifications Plugin    -->
+<script src="assets/js/bootstrap-notify.js"></script>
+<!--   Sharrre Library    -->
+<script src="assets/js/jquery.sharrre.js"></script>
+<!-- DateTimePicker Plugin -->
+<script src="assets/js/bootstrap-datetimepicker.js"></script>
+<!-- Vector Map plugin -->
+<script src="assets/js/jquery-jvectormap.js"></script>
+<!-- Sliders Plugin -->
+<script src="assets/js/nouislider.min.js"></script>
+<!--  Google Maps Plugin    -->
+<!--<script src="assets/js/jquery.select-bootstrap.js"></script>-->
+<!-- Select Plugin -->
+<script src="assets/js/jquery.select-bootstrap.js"></script>
+<!--  DataTables.net Plugin    -->
+<script src="assets/js/jquery.datatables.js"></script>
+<!-- Sweet Alert 2 plugin -->
+<script src="assets/js/sweetalert2.js"></script>
+<!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+<script src="assets/js/jasny-bootstrap.min.js"></script>
+<!--  Full Calendar Plugin    -->
+<script src="assets/js/fullcalendar.min.js"></script>
+<!-- TagsInput Plugin -->
+<script src="assets/js/jquery.tagsinput.js"></script>
+<!-- Material Dashboard javascript methods -->
+<script src="assets/js/material-dashboard.js"></script>
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="api/ajaxProxy.js"></script>
+<script src="api/apiRequester.js"></script>
+
+<script src="data/mmf_data.js"></script>
+<script type="text/javascript">
+    let waitForEl = function (selector, callback) {
+        if (jQuery(selector).hasClass("active")) {
+            callback();
+        } else {
+            setTimeout(function () {
+                waitForEl(selector, callback);
+            }, 100);
+        }
+    };
+
+    waitForEl($("#2017budget"), function () {
+        MMF.initMMF2017budgetCharts();
+    });
+
+    waitForEl($("#2017paid"), function () {
+        MMF.initMMF2017paidCharts();
+    });
+</script>
+</html>

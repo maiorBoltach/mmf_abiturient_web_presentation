@@ -1,5 +1,5 @@
 var parserTools = require('./parser/parser');
-
+var port = 3000;
 // Fast html framework
 const express = require('express');
 const app = express();
@@ -16,9 +16,9 @@ const db = new sqlite3.Database('./databases/database.db');
 // Add restful controller
 require('./ServerController')(app, db, jsonParser);
 
-app.listen(3000);
-
+app.listen(port);
+console.log("Port in use: " + port);
 // Serve static files
 app.use('/', express.static(__dirname + '/wwwroot'));
 
-setInterval(function(){ parserTools.parseBudget(db)}, 60000);
+setInterval(function(){ parserTools.parseBudget(db)}, 5000);

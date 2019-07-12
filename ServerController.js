@@ -1,6 +1,6 @@
 module.exports = function(app, db, jsonParser){
 
-    const enlistmentFields = ["time", "speciality", "recruitmentBudget", "recruitmentPaid", "allRecruitments", "points400", "points390", "points380", "points370", "points360", "points350", "points340", "points330", "points320", "points310",
+    const enlistmentFields = ["time", "speciality", "name", "recruitmentBudget", "recruitmentPaid", "allRecruitments", "points400", "points390", "points380", "points370", "points360", "points350", "points340", "points330", "points320", "points310",
         "points300", "points290", "points280", "points270", "points260", "points250", "points240", "points230", "points220", "points210", "points200", "points190", "points180", "points170", "points160",
         "points150", "points140", "points130", "points120", "target_training", "no_exams", "out_competition", "contract"];
 
@@ -13,53 +13,92 @@ module.exports = function(app, db, jsonParser){
         "sum(target_training) as target_training", "sum(no_exams) as no_exams", "sum(out_competition) as out_competition", "sum(contract) as contract"];
 
     console.log("Registering endpoint: /");
-    console.log("Registering endpoint: /api/budget");
-    console.log("Registering endpoint: /api/paid");
+    console.log("Registering endpoint: /api/faculty");
 
     app.get('/', function (req, res) {
         res.sendFile(__dirname + '/wwwroot/index.html');
     });
 
-    app.get('/api/budget/:speciality', function(req, res){
-        let speciality = req.params.speciality;
-        let sql = "";
-        if(speciality==='all') sql = "SELECT " + enlistmentSumFields.join(", ") + " FROM BudgetEnlisment WHERE time = (SELECT MAX(time) FROM BudgetEnlisment)";
-        else sql = "SELECT " + enlistmentFields.join(", ") + " FROM BudgetEnlisment WHERE time = (SELECT MAX(time) FROM BudgetEnlisment)  AND speciality = '" + speciality + "'";
-        console.log(sql);
+    app.get('/api/faculty/list', function(req, res){
+        let sql = "select id, name from Faculties";
         db.all(sql, function(err, rows) {
             res.json(rows);
         });
     });
 
-    app.get('/api/budget/:speciality/:time', function(req, res){
-        let speciality = req.params.speciality;
-        let time = req.params.time;
+    app.get('/api/faculty/:facultyId/list', function(req, res){
+        let facultyId = req.params.facultyId;
+        let sql = "select speciality_id, name from Specialities where faculty_id = " + facultyId;
+        db.all(sql, function(err, rows) {
+            res.json(rows);
+        });
+    });
+
+    app.get('/api/faculty/:facultyId/:studyType/list', function(req, res){
+        let facultyId = req.params.facultyId;
+        let studyType = req.params.studyType;
+
+        let where_conf = '';
+        if(studyType==='budget')
+            where_conf = ' and budget_day = 1';
+        else if(studyType==='paid')
+            where_conf = ' and paid_day = 1';
+
+        let sql = "select speciality_id, name from Specialities where faculty_id = " + facultyId + where_conf;
+        db.all(sql, function(err, rows) {
+            res.json(rows);
+        });
+    });
+
+
+    app.get('/api/faculty/:facultyId/speciality/:specialityId/:studyType', function(req, res){
+        let facultyId = req.params.facultyId;
+        let specialityId = req.params.specialityId;
+        let studyType = req.params.studyType;
+
+        console.log(new Date() + " | BASE_API: " + facultyId + " | " + specialityId + " | " + studyType);
+
+        let table = '';
+        if(studyType==='budget')
+            table = 'BudgetEnlisment';
+        else if(studyType==='paid')
+            table = 'PaidEnlisment';
+
         let sql = "";
-        if(speciality==='all') sql = "SELECT " + enlistmentSumFields.join(", ") + " FROM BudgetEnlisment WHERE time = (SELECT time FROM BudgetEnlisment ORDER BY abs(time - '" + time + "') LIMIT 1) ";
-        else sql = "SELECT " + enlistmentFields.join(", ") + " FROM BudgetEnlisment WHERE time = (SELECT time FROM BudgetEnlisment ORDER BY abs(time - '" + time + "') LIMIT 1)  AND speciality = '" + speciality + "'";
-        console.log(sql);
+        if(specialityId==='all') sql = "SELECT " + enlistmentSumFields.join(", ") + " FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id WHERE time = (SELECT MAX(time) FROM " + table + ") AND Specialities.faculty_id = " + facultyId;
+        else sql = "SELECT " + enlistmentFields.join(", ") + " FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id WHERE time = (SELECT MAX(time) FROM " + table + ") AND speciality = " + specialityId;
+        db.all(sql, function(err, rows) {
+            res.json(rows);
+        });
+    });
+
+
+    app.get('/api/faculty/:facultyId/speciality/:specialityId/:studyType/:time', function(req, res){
+        let facultyId = req.params.facultyId;
+        let specialityId = req.params.specialityId;
+        let studyType = req.params.studyType;
+        let time = req.params.time;
+
+        console.log(new Date() + " | REFRESH_API: " + facultyId + " | " + specialityId + " | " + studyType + " | " + time);
+
+        let table = '';
+        if(studyType==='budget')
+            table = 'BudgetEnlisment';
+        else if(studyType==='paid')
+            table = 'PaidEnlisment';
+
+        let sql = "";
+        if(specialityId==='all') sql = "SELECT " + enlistmentSumFields.join(", ") + " FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id WHERE time = (SELECT time FROM " + table + " ORDER BY abs(time - '" + time + "') LIMIT 1) AND Specialities.faculty_id = " + facultyId;
+        else sql = "SELECT " + enlistmentFields.join(", ") + " FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id WHERE time = (SELECT time FROM " + table + " ORDER BY abs(time - '" + time + "') LIMIT 1) AND speciality = " + specialityId;
         db.all(sql, function(err, oldData) {
             let oldDataValue = oldData[0];
             let sqlNew = "";
-            if(speciality==='all') sqlNew = "SELECT " + enlistmentSumFields.join(", ") + " FROM BudgetEnlisment WHERE time = (SELECT MAX(time) FROM BudgetEnlisment)";
-            else sqlNew = "SELECT " + enlistmentFields.join(", ") + " FROM BudgetEnlisment WHERE time = (SELECT MAX(time) FROM BudgetEnlisment)  AND speciality = '" + speciality + "'";
-            console.log(sqlNew);
+            if(specialityId==='all') sqlNew = "SELECT " + enlistmentSumFields.join(", ") + " FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id WHERE time = (SELECT MAX(time) FROM " + table + ") AND Specialities.faculty_id = " + facultyId;
+            else sqlNew = "SELECT " + enlistmentFields.join(", ") + " FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id WHERE time = (SELECT MAX(time) FROM " + table + ") AND speciality = " + specialityId;
             db.all(sqlNew, function(err, newData) {
                 let newDataValue = newData[0];
                 res.send({oldDataValue, newDataValue});
             });
-
-        });
-    });
-
-    app.get('/api/paid/:speciality', function(req, res){
-        let queryBy = req.params.speciality;
-        let sql = "";
-        if(queryBy==='all') sql = "SELECT " + enlistmentSumFields.join(", ") + " FROM PaidEnlisment WHERE time = (SELECT MAX(time) FROM PaidEnlisment)";
-        else sql = "SELECT " + enlistmentFields.join(", ") + " FROM PaidEnlisment WHERE time = (SELECT MAX(time) FROM PaidEnlisment)  AND speciality = '" + queryBy + "'";
-        console.log(sql);
-        db.all(sql, function(err, rows) {
-                res.json(rows);
         });
     });
 };
