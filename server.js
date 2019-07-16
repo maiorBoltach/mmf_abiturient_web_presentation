@@ -21,4 +21,4 @@ console.log("Port in use: " + port);
 // Serve static files
 app.use('/', express.static(__dirname + '/wwwroot'));
 
-setInterval(function(){ parserTools.parseBudget(db)}, 5000);
+setInterval(function(){ parserTools.parseBudget(db)}, 50000);

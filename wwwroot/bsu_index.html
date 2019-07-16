@@ -41,11 +41,16 @@
                         <p>Главная</p>
                     </a>
                 </li>
-
+                <li>
+                    <a href="bsu_allfaculties.html">
+                        <i class="material-icons">timeline</i>
+                        <p>Общие баллы</p>
+                    </a>
+                </li>
                 <li class="active">
                     <a href="bsu_index.html">
                         <i class="material-icons">timeline</i>
-                        <p>Проходные баллы</p>
+                        <p>Мониторинг</p>
                     </a>
                 </li>
                 <li>
@@ -88,6 +93,11 @@
                                         2019 (дневное бюджет)
                                     </a>
                                 </li>
+                                <li id="paid">
+                                    <a href="#2018budget" role="tab" data-toggle="tab">
+                                        2019 (дневное платное)
+                                    </a>
+                                </li>
                                 <!--<li id="paid">-->
                                 <!--<a href="specialities.html#2018">-->
                                 <!--2018 (дневное платное)</a>-->
@@ -113,6 +123,7 @@
                                                     <button id="refresh" class="btn btn-primary btn-xs">Обновить</button>
                                                     <br>Время сравнения: <strong id="updateOldTime" data-value="">-</strong>
                                                     <br>Показать разницу за:
+                                                    <button id="nodiff" class="btn btn-primary btn-xs">ВЫКЛ</button>
                                                     <button id="diff1hour" class="btn btn-primary btn-xs">1 час</button>
                                                     <button id="diff3hours" class="btn btn-primary btn-xs">3 часа</button>
                                                     <button id="diff6hours" class="btn btn-primary btn-xs">6 часов</button>

@@ -23,7 +23,7 @@ module.exports = {
 
         let i = 0;
         while (currentElement[0] !== undefined) {
-            if(type === "PaidEnlisment" && i === 1)
+            if(type === "PaidEnlisment" && i === 2)
                 arrayRes.push(0);
             arrayRes.push(currentElement.text() !== "" ? Number(currentElement.text()) : 0);
             i++;

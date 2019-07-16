@@ -26,6 +26,64 @@ module.exports = function(app, db, jsonParser){
         });
     });
 
+    app.get('/api/faculty/:studyType', function(req, res){
+
+        let studyType = req.params.studyType;
+        console.log(new Date() + " | FACULTY_API: " + studyType);
+
+        let table = '';
+        let where_conf = '';
+        if(studyType==='budget') {
+            table = 'BudgetEnlisment';
+            where_conf = ' and budget_day = 1';
+        }
+        else if(studyType==='paid') {
+            table = 'PaidEnlisment';
+            where_conf = ' and paid_day = 1';
+        }
+
+        let sql = "SELECT " + enlistmentSumFields.join(", ") + ", Faculties.name FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id  LEFT JOIN Faculties ON faculty_id = Faculties.id " +
+            "WHERE time = (SELECT MAX(time) FROM " + table + ")" + where_conf + " GROUP BY faculty_id";
+        db.all(sql, function(err, rows) {
+            res.json(rows);
+        });
+    });
+
+
+    app.get('/api/faculty/:studyType/:time', function(req, res){
+
+        let studyType = req.params.studyType;
+        let time = req.params.time;
+
+        console.log(new Date() + " | FACULTY_API: " + studyType + "|" + time);
+
+        let table = '';
+        let where_conf = '';
+        if(studyType==='budget') {
+            table = 'BudgetEnlisment';
+            where_conf = ' and budget_day = 1';
+        }
+        else if(studyType==='paid') {
+            table = 'PaidEnlisment';
+            where_conf = ' and paid_day = 1';
+        }
+
+        let sql = "SELECT " + enlistmentSumFields.join(", ") + ", Faculties.name, Faculties.id FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id  LEFT JOIN Faculties ON faculty_id = Faculties.id " +
+            "WHERE time = (SELECT time FROM " + table + " ORDER BY abs(time - '" + time + "') LIMIT 1)" + where_conf + " GROUP BY faculty_id";
+        console.log(sql);
+        db.all(sql, function(err, oldData) {
+            let oldDataValue = oldData;
+            let sqlNew = "SELECT " + enlistmentSumFields.join(", ") + ", Faculties.name, Faculties.id FROM " + table + " LEFT JOIN Specialities ON " + table + ".speciality = Specialities.speciality_id  LEFT JOIN Faculties ON faculty_id = Faculties.id " +
+                "WHERE time = (SELECT MAX(time) FROM " + table + ")" + where_conf + " GROUP BY faculty_id";
+            db.all(sqlNew, function(err, newData) {
+                let newDataValue = newData;
+                res.send({oldDataValue, newDataValue});
+            });
+        });
+
+    });
+
+
     app.get('/api/faculty/:facultyId/list', function(req, res){
         let facultyId = req.params.facultyId;
         let sql = "select speciality_id, name from Specialities where faculty_id = " + facultyId;

@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function (event) {
     getFacultiesData();
-    firstInit();
+    let studyType = getStudyType();
+    firstInit(studyType);
 }
 );
 
-function firstInit() {
+function firstInit(studyType) {
     let faculty_id = getFacultyId();
-    let studyType = getStudyType();
     getSpecialitiesData(faculty_id, studyType);
     getBasicData(faculty_id, studyType);
     getAdditionalData("all", faculty_id, studyType);
@@ -22,7 +22,16 @@ $('#faculties').on("click", "a", function (event) {
     let activeTab = $(this).attr('data-tokens');
     $( "#2018budget" ).attr( "data-value", activeTab );
     $( "#speciality" ).attr( "data-value", 'all' );
-    firstInit();
+    let studyType = getStudyType();
+    firstInit(studyType);
+});
+
+$('#configuration').on("click", "li", function (event) {
+    // let activeTab = $(this).attr('data-tokens');
+    // $( "#2018budget" ).attr( "data-value", activeTab );
+    $( "#speciality" ).attr( "data-value", 'all' );
+    let studyType = $(this).attr('id');
+    firstInit(studyType);
 });
 
 
@@ -77,6 +86,10 @@ function getBasicData(faculty_id, studyType) {
 /////////////////
 /////////////////
 // Get old data by time
+
+$('#nodiff').click(function () {
+    getAPI();
+});
 
 $('#diff1hour').click(function () {
     let time = 1;
@@ -139,7 +152,7 @@ function getSelectedTabId(){
 }
 
 function getStudyType(){
-    return 'budget';
+    return $( "#configuration li.active" ).attr( "id");
 }
 
 function handleError(data) {
@@ -425,4 +438,6 @@ function printAdditionalData(data) {
     table1.append(tableString1);
     table2.append(tableString2);
     table3.append(tableString3);
+    $('#updateOldTime').html("<b>-</b>");
+
 }
