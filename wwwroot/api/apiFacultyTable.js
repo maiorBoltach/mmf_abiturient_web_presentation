@@ -183,6 +183,21 @@ function printDifference(oldData, newData) {
     return result;
 }
 
+function printCurrentPassingScoreDifference(oldData, newData) {
+    let result = "";
+    let oldDataValue = 0;
+    let newDataValue = 0;
+    if(oldData !== 'есть места')
+        oldDataValue = Number(oldData.slice(0, -1));
+    if(newData !== 'есть места')
+        newDataValue = Number(newData.slice(0, -1));
+
+    if(Number(newDataValue) > Number(oldDataValue)) result = '<strong><small style="color: red"> (↑ ' + oldData + ')</small></strong>';
+    else if(Number(newDataValue) < Number(oldDataValue)) result = '<strong><small style="color: green"> (↓ ' + oldData + ')</small></strong>';
+    else if(Number(newDataValue) === Number(oldDataValue)) result = '<small> (-)</small>';
+    return result;
+}
+
 function printBasicDataWithDiff(data) {
     $('#facultiesInfo tr').slice(1).remove();
     const tbody = $('#facultiesInfo').children('tbody');
@@ -201,11 +216,13 @@ function printBasicDataWithDiff(data) {
         else if(studyType === 'paid')
             requirementValue = newData.recruitmentPaid;
 
+        let currentPassing = getCurrentPassingScore(newData);
+        let oldPassing = getCurrentPassingScore(oldData);
 
         tableString = '<tr><td class="text-center">' + oldData.name + '</td>' +
             '<td class="text-center"><strong>' + checkString(requirementValue) + '</strong></td>' +
             '<td class="text-center"><strong>' + checkString(newData.allRecruitments) + printDifference(oldData.allRecruitments, newData.allRecruitments) + '</strong></td>' +
-            '<td class="text-center"><strong>' + getCurrentPassingScore(newData) + '</strong></td></tr>';
+            '<td class="text-center"><strong>' + currentPassing + printCurrentPassingScoreDifference(oldPassing, currentPassing) + '</strong></td></tr>';
         $('#updateOldTime').html(formatDateTime(oldData.time));
         $('#budgetTimeUpdate').html(formatDateTime(newData.time));
         table.append(tableString);
