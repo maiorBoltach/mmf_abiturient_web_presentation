@@ -3,9 +3,9 @@
   "version": "2018.1.2",
   "description": "MMF Abiturient Dashboard",
   "dependencies": {
-    "body-parser": "^1.17.1",
+    "body-parser": "^1.20.1",
     "cheerio": "^1.0.0-rc.2",
-    "express": "^4.15.2",
+    "express": "^4.18.2",
     "material-design-icons": "^3.0.1",
     "npm": "^6.13.4",
     "pkg": "^4.4.0",
