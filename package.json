@@ -5,7 +5,7 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "cheerio": "^1.0.0-rc.2",
-    "express": "^4.15.2",
+    "express": "^4.17.3",
     "material-design-icons": "^3.0.1",
     "npm": "^6.13.4",
     "pkg": "^4.4.0",
